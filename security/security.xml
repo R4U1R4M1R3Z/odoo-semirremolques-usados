@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="module_category_usados" model="ir.module.category">
+        <field name="name">Usados</field>
+        <field name="sequence">1</field>
+    </record>
+        <record id="module_category_usados_usados" model="ir.module.category">
+        <field name="name">Usados</field>
+        <field name="sequence">1</field>
+        <field name="parent_id" ref="module_category_usados"/>
+    </record>
+    <record id="group_usados_usuario" model="res.groups">
+        <field name="name">Usuario: Solo puede ver sus propios semirremolques</field>
+        <field name="category_id" ref="module_category_usados_usados"/>
+    </record>
+    <record id="group_usados_administrador" model="res.groups">
+        <field name="name">Administrador</field>
+        <field name="category_id" ref="module_category_usados_usados"/>
+        <field name="implied_ids" eval="[(4, ref('group_usados_usuario'))]"/>
+    </record>
+    <record id="usados_propios_rule" model="ir.rule">
+        <field name="name">Usados propios</field>
+        <field name="model_id" ref="model_usados"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_usados_usuario'))]"/>
+    </record>
+    <record id="usados_todoss_rule" model="ir.rule">
+        <field name="name">Usados todos</field>
+        <field name="model_id" ref="model_usados"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('group_usados_administrador'))]"/>
+    </record>
+
+</odoo>

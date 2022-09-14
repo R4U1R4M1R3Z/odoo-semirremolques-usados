@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_open_usados" model="ir.actions.act_window">
+        <field name="name">Semirremolques</field>
+        <field name="res_model">usados</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_principal" name="Usados" web_icon="usados,static/description/icon.png"/>
+
+    <menuitem id="menu_horizontal" name="Semirremolques" parent="menu_principal" action="action_open_usados"/>
+
+    
+    <record id="view_usados_form" model="ir.ui.view">
+        <field name="name">Vista formulario de semirremolques usados</field>
+        <field name="model">usados</field>
+        <field name="arch" type="xml">
+            <form> 
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="disponible,reservado,vendido"/>
+                    <button string="Reservar" type="object" name="reservar" class="oe_highlight" states="disponible"/>
+                    <button string="Vender" type="object" name="vender" class="oe_highlight" states="reservado"/>
+                    <button string="Cancelar reserva" type="object" name="cancelar" states="reservado"/>
+                    <button string="Ceder" type="object" name="ceder" class="oe_highlight" states="disponible"/>
+
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Reservado" bg_color="bg-warning" attrs="{'invisible': [('state', '!=', 'reservado')]}"/>
+                    <widget name="web_ribbon" title="Cedido" bg_color="bg-warning" attrs="{'invisible': [('state', '!=', 'cedido')]}"/>
+                    <widget name="web_ribbon" title="Vendido" bg_color="bg-danger" attrs="{'invisible': [('state', '!=', 'vendido')]}"/>
+
+                    <group string="Datos del vehículo">
+                        <group>
+                            <field name="name"/>
+                            <field name="num_bastidor"/>
+                            <field name="marca_bastidor"/>
+                            <field name="num_furgon"/>
+                            <field name="marca_furgon"/>
+                        </group>
+                        <group>
+                            <field name="anyo_fabricacion"/>
+                            <field name="seguro_check"/>
+                            <field name="fecha_seguro" attrs="{'invisible':[('seguro_check', '=', False)]}"/>
+                            <field name="fecha_ITV"/>
+                            <field name="ubicacion"/>
+                            <field name="ubicacion_otros" attrs="{'invisible':[('ubicacion', '!=','otros')]}"/>
+
+                        </group>
+                        <field name="situacion"
+                           placeholder="Breve descripción sobre la situación del vehívulo"/>
+                       
+                    </group>
+
+                    <group>
+
+                    </group>
+                    <notebook>
+                        <page string="Caracteristicas del furgón">
+                            <h3>Caracteristicas del furgón</h3>
+                            <group>
+                                <group>
+                                    <field name="ATP" widget="radio" />
+                                    <field name="documentacion_atp" eval="True" />
+                                    <field name="fecha_ATP" attrs="{'invisible':[('documentacion_atp', '=', False)]}"/>
+                                    <field name="modelo" widget="radio" />
+                                    <field name="tipo_carga" widget="radio" />
+                                    <field name="acabado_piso" widget="radio" />
+                                </group>
+                                <group>
+                                    <field name="termografo" eval="True" />
+                                    <field name="documentacion_termografo" eval="True" attrs="{'invisible':[('termografo', '=', False)]}"/>
+                                    <field name="fecha_termografo" attrs="{'invisible':[('documentacion_termografo', '=', False)]}"/>
+                                    <field name="cierre" widget="radio" />
+                                    <field name="zocalo" widget="radio" />
+                                    <field name="altura_interior" widget="radio" />
+                                    <field name="anchura_interior" widget="radio" />
+                                </group>
+                            <field name="observaciones_furgon" placeholder="Observaciones"/>
+                            </group>
+                        </page>
+                        <page string="Caracteristicas del chasis">
+                            <h3>Caracteristicas del chasis</h3>
+
+                            <group>
+                                <group>
+                                    
+                                    <field name="marca_ejes" />
+                                    <field name="eje_direccional" />
+                                    <field name="eje_elevable" />
+                                    <field name="eje_elevable_ubi" attrs="{'invisible':[('eje_elevable', '=', False)]}"/> 
+                                    <field name="rueda_repuesto" />
+                                    <field name="cantidad_neumaticos" />
+                                    <field name="tamanyo_neumaticos" widget="radio" />
+                                    <field name="tipo_freno" widget="radio" />
+                                    <field name="tipo_freno_1" widget="radio" attrs="{'invisible':[('tipo_freno', '!=', 'Disco')]}"/>
+                                </group>
+                                <group>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Neumático</th>
+                                                <th scope="col">Modelo</th>
+                                                <th scope="col">Estado</th>
+                                                <th scope="col">Produndidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>
+                                                    <field name="modelo1" />
+                                                </td>
+                                                <td>
+                                                    <field name="estado1" />
+                                                </td>
+                                                <td>
+                                                    <field name="profundidad1" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>
+                                                    <field name="modelo2" />
+                                                </td>
+                                                <td>
+                                                    <field name="estado2" />
+                                                </td>
+                                                <td>
+                                                    <field name="profundidad2" />
+                                                </td>
+                                                </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>
+                                                    <field name="modelo3" />
+                                                </td>
+                                                <td>
+                                                    <field name="estado3" />
+                                                </td>
+                                                <td>
+                                                    <field name="profundidad3" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                            <th scope="row">4</th>
+                                                <td>
+                                                    <field name="modelo4" />
+                                                </td>
+                                                <td>
+                                                    <field name="estado4" />
+                                                </td>
+                                                <td>
+                                                    <field name="profundidad4" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">5</th>
+                                                <td>
+                                                    <field name="modelo5" />
+                                                </td>
+                                                <td>
+                                                    <field name="estado5" />
+                                                </td>
+                                                <td>
+                                                    <field name="profundidad5" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                            <th scope="row">6</th>
+                                                <td>
+                                                    <field name="modelo6" />
+                                                </td>
+                                                <td>
+                                                    <field name="estado6" />
+                                                </td>
+                                                <td>
+                                                    <field name="profundidad6" />
+                                                </td>
+                                            </tr>
+                                            <tr attrs="{'invisible':[('rueda_repuesto', '=', False)]}">
+                                            <th scope="row">Rueda repuesto</th>
+                                                <td>
+                                                    <field name="modelo_rueda_repuesto" />
+                                                </td>
+                                                <td>
+                                                    <field name="estado_rueda_repuesto" />
+                                                </td>
+                                                <td>
+                                                    <field name="profundidad_rueda_repuesto" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </group>
+                                
+                                <field name="observaciones_chasis" placeholder="Observaciones"/>
+                                
+                            </group>
+                        </page>
+                        <page string="Accesorios">
+                            <h3>Accesorios del furgón</h3>
+                            <group>
+                                <group>
+                                    <field name="lr_Horizontal_laterales" />
+                                    <field name="lr_Horizontal_laterales_cantidad" />
+                                    <field name="lr_Horizontal_laterales_embutidas" />
+                                    <field name="lr_Horizontal_laterales_embutidas_cantidad" />
+                                    <field name="lr_techo" />
+                                    <field name="lr_techo_cantidad" />
+                                    <field name="barra_horizontal" />
+                                    <field name="barra_horizontal_cantidad" />
+                                    <field name="barra_vertical_puntataco" />
+                                    <field name="barra_vertical_puntataco_cantidad" />
+                                    <field name="barra_vertical_tacotaco" />
+                                    <field name="barra_vertical_tacotaco_cantidad" />
+                                </group>
+                                <group>
+                                    <field name="lona" />
+                                    <field name="longitud_lona" />
+                                    <field name="rotulacion" />
+                                    <field name="banda_laterales" />
+                                    <field name="banda_techo" />
+                                    <field name="desague" />
+                                    <field name="posicion_desague" />
+                                    <field name="canal_desague" />
+                                    <field name="colector" />
+                                    <field name="tipo_colector" />
+                                    <field name="plataforma" />
+                                </group>
+                            </group>
+                            <h3>Accesorios del chasis</h3>
+                            <group>
+                                <group>
+                                    <field name="portapale_cerrado" />
+                                    <field name="portapale_abierto" />
+                                    <field name="anticiclista" />
+                                    <field name="escalera_trasera" />
+                                    <field name="portadocumentos" />
+                                </group>
+                            <group>
+                                <field name="cajones" />
+                                <field name="posicion_cajones" />
+                                <field name="tabique" />
+                                <field name="tipo_tabique" />
+                                <field name="soporte_Rueda" />
+                                <field name="tipo_Soporte" />
+                            </group>
+                            <field name="observaciones_accesorios" placeholder="Observaciones"/>
+                        </group>
+                        </page>
+                        <page string="Equipo de frio">
+                            <h3>Equipo de frio</h3>
+                            <group>
+                                <group>
+                                    <field name="marca_Equipo_frio" />
+                                    <field name="modelo_Equipo_frio" />
+                                    <field name="horas_equipo" attrs="{'invisible': [('modelo_Equipo_frio', '=', 'Eléctrico y diesel')]}" />
+                                    <field name="horas_equipo_diesel" />
+                                    <field name="tipo_equipo" />
+                                </group>
+                                <group>
+                                    <field name="modelo_termografo" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Compra" >
+                            <group>
+                                <group>
+                                    <field name="compradoa_id" />
+                                    <field name="precio_compra" />
+                                    <field name="fecha_Entrada" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Venta / Renting" >
+                            <group>
+                                <group>
+                                    <field name="accion_com" />
+                                    <field name="vendidoa_id" attrs="{'invisible': [('accion_com', '!=', 'Venta')]}" />
+                                    <field name="precio_venta" attrs="{'invisible': [('accion_com', '!=', 'Venta')]}" />
+                                    <field name="fecha_salida" attrs="{'invisible': [('accion_com', '!=', 'Venta')]}" />
+                                    <field name="mensualidades" attrs="{'invisible': [('accion_com', '!=', 'Renting')]}" />
+                                    <field name="fecha_inicio_renting" attrs="{'invisible': [('accion_com', '!=', 'Renting')]}" />
+                                    <field name="fecha_fin_renting" attrs="{'invisible': [('accion_com', '!=', 'Renting')]}" />
+                                    <field name="quota_renting" attrs="{'invisible': [('accion_com', '!=', 'Renting')]}" />
+                                    <field name="cedidoa_id" attrs="{'invisible': [('accion_com', '!=', 'cedido')]}" />
+
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Reparaciones" >
+                            <group>
+                                <group>
+                                    <field name="coste_reparacion" />
+                                    <field name="informacion_reparacion" />
+                                    <field name="informe_reparacion" filename="informe_reparacion_filename" />
+                                    <field name="informe_reparacion_filename" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Documentación" >
+                            <group>
+                                <group>
+                                    <field name="cambio_nombre" filename="cambio_nombre_filename" />
+                                    <field name="cambio_nombre_filename" invisible="1"/>
+                                    <field name="entrada" filename="entrada_filename" />
+                                    <field name="entrada_filename" invisible="1"/>
+                                    <field name="ATP_documentacion" filename="ATP_filename" />
+                                    <field name="ATP_filename" invisible="1"/>
+                                    <field name="entrada_devolucion" filename="entrada_devolucion_filename" />
+                                    <field name="entrada_devolucion_filename" invisible="1"/>
+                                    <field name="ficha_tecnica" filename="ficha_tecnica_filename" />
+                                    <field name="ficha_tecnica_filename" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="permiso_circulacion" filename="permiso_circulacion_filename" />
+                                    <field name="permiso_circulacion_filename" invisible="1"/>
+                                    <field name="contrato" filename="contrato_filename" />
+                                    <field name="contrato_filename" invisible="1"/>  
+                                    <field name="factura" filename="factura_filename" />
+                                    <field name="factura_filename" invisible="1"/>   
+                                    <field name="seguro" filename="seguro_filename" />
+                                    <field name="seguro_filename" invisible="1"/>                                                                                                         
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Imagenes" >
+                            <group>
+                                <field name="lateral_derecho" widget="image" options="{'size': [800, 500]}" />
+                                <field name="lateral_izquierdo" widget="image" options="{'size': [800, 500]}" />
+                                <field name="portapale_izquierdo" widget="image" options="{'size': [800, 500]}" />
+                                <field name="portapale_derecho" widget="image" options="{'size': [800, 500]}" />   
+                                <field name="centroruedas_izquierdo" widget="image" options="{'size': [800, 500]}" />   
+                                <field name="centroruedas_derecho" widget="image" options="{'size': [800, 500]}" />   
+                                <field name="trasera" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="esquina1" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="esquina2" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="esquina3" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="esquina4" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="esquina4" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="frontal" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="interior" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="otros1" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="otros2" widget="image" options="{'size': [800, 500]}" /> 
+                                <field name="otros3" widget="image" options="{'size': [800, 500]}" /> 
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+        <record id="view_usados_tree" model="ir.ui.view">
+        <field name="name">Vista lista de usados</field>
+        <field name="model">usados</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'disponible'" decoration-warning="state == 'reservado'" decoration-danger="state == 'vendido'">
+                <field name="name" optional="show"/>
+                <field name="num_bastidor" optional="show"/>
+                <field name="marca_bastidor" optional="show" />
+                <field name="num_furgon" optional="show"/>
+                <field name="marca_furgon" optional="hide"/>
+                <field name="create_uid" />
+                <field name="anyo_fabricacion" optional="show"/>
+                <field name="ubicacion" optional="show"/>
+                <field name="compradoa_id" optional="show"/>
+                <field name="precio_compra" optional="show"/>
+                <field name="fecha_Entrada" optional="hide"/>
+                <field name="vendidoa_id" optional="show"/>
+                <field name="precio_venta" optional="show"/>
+                <field name="fecha_salida" optional="hide"/>
+                <field name="coste_reparacion" optional="show"/>
+                <field name="state" optional="show" widget="badge"/> 
+            </tree>
+
+            <!--  decoration-bf: negrita  -->
+            <!--  decoration-it: cursiva  -->
+            <!--  decoration-danger: color rojo  -->
+            <!--  decoration-info: color azul claro  -->
+            <!--  decoration-muted: color gris claro  -->
+            <!--  decoration-success: color verde  -->
+            <!--  decoration-warning: color mostaza  -->
+        </field>
+    </record>
+
+       <record id="view_usados_filter" model="ir.ui.view">
+            <field name="name">request.quotation.select</field>
+            <field name="model">usados</field>
+            <field name="arch" type="xml">
+                <search string="Buscar semirremolque usado">
+                    <field name="name" string="Matricula" />
+                    <field name="num_bastidor" string="Número de bastidor" />
+                    <field name="num_furgon" string="Número de furgón" />
+                    <field name="compradoa_id" string="Comprado a" />
+                    <field name="vendidoa_id" string="Vendido a" />
+                    <group expand="0" string="Group By">
+                        <filter string="Año de fabricación" name="anyo_fabricacion" domain="[]" context="{'group_by': 'anyo_fabricacion'}"/>
+                        <filter string="Estado del semirremolque" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Ubicación" name="state" domain="[]" context="{'group_by': 'ubicacion'}"/>
+                    </group>
+                    <separator/>
+                    <filter name="ATP" string="Frigorifico" domain="[('ATP', '=','Frigorifico')]"/>
+                    <filter name="ATP" string="Isotermo" domain="[('ATP', '=', 'Isotermo')]"/>
+                    
+                    <separator/>
+
+                    <filter name="termografo" string="Con termógrafo" domain="[('termografo', '=',True)]"/>
+                    <filter name="termografo" string="Sin termógrafo" domain="[('termografo', '=', False)]"/>
+                    
+                    <separator/>
+
+                    <filter name="modelo" string="Monotemperatura" domain="[('modelo', '=','Monotemperatura')]"/>
+                    <filter name="modelo" string="Multitemperatura" domain="[('modelo', '=', 'Multitemperatura')]"/>
+
+                    <separator/>
+
+                    <filter name="tipo_carga" string="Estándar" domain="[('tipo_carga', '=','Estándar')]"/>
+                    <filter name="tipo_carga" string="Carne colgada" domain="[('tipo_carga', '=', 'Carne colgada')]"/>
+                    <filter name="tipo_carga" string="Carga a doble altura" domain="[('tipo_carga', '=', 'Carga a doble altura')]"/>
+
+                    <separator/>
+
+                    <filter name="altura_interior" string="Altura interior 2600" domain="[('altura_interior', '=','2600')]"/>
+                    <filter name="altura_interior" string="Altura interior 2650" domain="[('altura_interior', '=','2650')]"/>
+                    <filter name="altura_interior" string="Altura interior 2700" domain="[('altura_interior', '=','2700')]"/>
+                    <filter name="altura_interior" string="Altura interior 2750" domain="[('altura_interior', '=', '2750')]"/>
+
+                    <separator/>
+
+                    <filter name="anchura_interior" string="Anchura interior 2470" domain="[('anchura_interior', '=','2470')]"/>
+                    <filter name="anchura_interior" string="Anchura interior 2500" domain="[('anchura_interior', '=', '2500')]"/>
+
+                    <separator/>
+
+                    <filter name="acabado_piso" string="Acabado del piso en aluminio" domain="[('acabado_piso', '=','Aluminio')]"/>
+                    <filter name="acabado_piso" string="Acabado del piso en poliester" domain="[('acabado_piso', '=','Poliester')]"/>
+
+                    <separator/>
+
+                    <filter name="eje_direccional" string="Con eje direccional" domain="[('eje_direccional', '=',True)]"/>
+                    <filter name="eje_direccional" string="Sin eje direccional" domain="[('eje_direccional', '=',False)]"/>
+
+                    <separator/>
+                    
+                    <filter name="tipo_freno_1" string="Tipo de freno de disco B0" domain="[('tipo_freno_1', '=','B0')]"/>
+                    <filter name="tipo_freno_1" string="Tipo de freno de disco B120" domain="[('tipo_freno_1', '=','B120')]"/>
+                    <filter name="tipo_freno" string="Tipo de freno de tambor" domain="[('tipo_freno', '=','Tambor')]"/>
+
+                    <separator/>
+                    <filter name="marca_Equipo_frio" string="Equipo de frio Thermo king" domain="[('marca_Equipo_frio', '=','Thermo King')]"/>
+                    <filter name="marca_Equipo_frio" string="Equipo de frio Carrier" domain="[('marca_Equipo_frio', '=','Carrier')]"/>
+                    <filter name="marca_Equipo_frio" string="Otros equipos de frio" domain="[('marca_Equipo_frio', '=','Otros')]"/>
+
+
+
+                </search>
+            </field>
+        </record>
+
+
+
+        
+
+
+</odoo>

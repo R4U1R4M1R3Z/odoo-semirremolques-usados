@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+     <record id="action_report_usados" model="ir.actions.report">
+        <field name="name">Usado</field>
+        <field name="model">usados</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">usados_semirremolques.report_usados</field>
+        <field name="report_file">usados_semirremolques.report_usados</field>
+        <field name="print_report_name">('Usado - %s' %(object.name))</field>
+        <field name="binding_model_id" ref="model_usados"/>
+        <field name="binding_type">report</field>
+    </record>
+
+ <template id="report_usados">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="row">
+                        <div class="col-12 text-right mb4">
+                            <p>Ficha de vehículo <span t-field="o.name"/> </p>
+                        </div>
+                    </div>
+                    <h2>Información del vehículo</h2>
+                    <div class="row">
+                        <div class="col-6">
+                            <p><strong>Matricula:</strong> <span t-field="o.name"/></p>
+                            <p><strong>Número de bastidor:</strong> <span t-field="o.num_bastidor"/></p>
+                            <p><strong>Marca de bastidor:</strong> <span t-field="o.marca_bastidor"/></p>
+                            <p><strong>Número furgón: </strong> <span t-field="o.num_furgon"/></p>
+                            <p><strong>Marca furgón: </strong><span t-field="o.marca_furgon"/></p>
+
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Año fabricación:</strong> <span t-field="o.anyo_fabricacion"/></p>
+                            <p><strong>Ubicación:</strong> <span t-field="o.ubicacion"/></p>
+                            <p><strong>Fecha vigencia ITV: </strong><span t-field="o.fecha_ITV"/></p>
+                            <tag t-if="o.seguro_check == True">Dispone de seguro | Fecha vigencia <span t-field="o.fecha_seguro"/></tag>
+                            <tag t-else="o.seguro_check == False">No dispone de seguro</tag>
+                        
+                        </div>
+                    </div>
+                    <h2>Caracteristicas del vehículo</h2>
+                    <p><strong><u>Caracteristicas del furgón</u></strong></p>
+                    <div class="row">
+                        <div class="col-12">
+                            <p><strong>ATP: </strong>
+                                <span t-field="o.ATP"/>
+                                <t t-if="o.documentacion_atp == True">
+                                   | Documentación disponible | Fecha de vigencia <strong><span t-field="o.fecha_ATP"/></strong>
+                                </t>
+                                <t t-if="o.documentacion_atp == False">
+                                    | Sin documentación disponible
+                                 </t>
+                            </p>
+                            <p><strong>Termógrafo: </strong>
+                                <t t-if="o.termografo == True">
+                                    Dispone de termógrafo
+                                    <t t-if="o.documentacion_termografo == True">
+                                         | Documentación disponible | Fecha vigencia <strong><span t-field="o.fecha_termografo"/></strong>
+                                    </t>   
+                                    <t t-if="o.documentacion_termografo == False">
+                                        | Documentación no disponible
+                                    </t>                             
+                                </t>
+                                <t t-if="o.termografo == False">
+                                    No dispone de termógrafo
+                                </t>
+                            </p>
+                            <p>
+                                <strong>Modelo:</strong>  <span t-field="o.modelo"/>
+                            </p>
+                            <p>
+                                <strong>Altura interior: </strong>  <span t-field="o.altura_interior"/>
+                            </p>  
+                            <p>
+                                <strong>Anchura interior: </strong>  <span t-field="o.anchura_interior"/>
+                            </p>                                                  
+                            <p>
+                                <strong>Tipo de carga: </strong>  <span t-field="o.tipo_carga"/>
+                            </p>
+                            <p>
+                                <strong>Cierre: </strong>  <span t-field="o.cierre"/>
+                            </p>       
+                            <p>
+                                <strong>Zocalo: </strong>  <span t-field="o.zocalo"/>
+                            </p>                       
+                            <p>
+                                <strong>Acabado del piso: </strong>  <span t-field="o.acabado_piso"/>
+                            </p>  
+                        </div>
+                    </div>
+                    <p><strong><u>Caracteristicas del chasis</u></strong></p>
+                    <div class="row">
+                        <div class="col-6">
+                            <p>
+                                <strong>Marca de ejes</strong> 
+                                <span t-field="o.marca_ejes" />
+                            </p>
+                            <t t-if="o.eje_direccional == True">
+                                Dispone de eje direccional
+                            </t>
+                            <t t-if="o.eje_elevable == True">
+                                Dispone de eje elevable. 
+                                <span t-field="o.eje_elevable_ubi" />
+                            </t>
+                            <t t-if="o.rueda_repuesto == True">
+                                Dispone de rueda de repuesto.
+                            </t>
+                            <p>
+                                <strong> Cantidad de neumáticos: </strong>
+                                <span t-field="o.cantidad_neumaticos" /> 
+                            </p>
+                            <p>
+                                <strong>Tamaño de los neumáticos:</strong>
+                                <span t-field="o.tamanyo_neumaticos" />
+                            </p>
+                            <p>
+                                <strong>Tipo de freno:</strong>
+                                <span t-field="o.tipo_freno" /> 
+                                <span t-field="o.tipo_freno_1" />
+                            </p>
+                        </div>
+                    </div>
+            <div style="page-break-before: always;"> 
+                    <div class="row">
+                        <div class="col-12 text-right mb4">
+                            <p>Ficha de vehículo <span t-field="o.name"/> </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>Estado de los neumáticos </p>
+                    </div>
+                    <div class="row">
+                            <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Neumático</th>
+                                                <th scope="col">Modelo</th>
+                                                <th scope="col">Estado</th>
+                                                <th scope="col">Produndidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>
+                                                    <span t-field="o.modelo1" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.estado1" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.profundidad1" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>
+                                                    <span t-field="o.modelo2" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.estado2" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.profundidad2" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>
+                                                    <span t-field="o.modelo3" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.estado3" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.profundidad3" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">4</th>
+                                                <td>
+                                                    <span t-field="o.modelo4" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.estado4" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.profundidad4" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">5</th>
+                                                <td>
+                                                    <span t-field="o.modelo5" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.estado5" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.profundidad5" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">6</th>
+                                                <td>
+                                                    <span t-field="o.modelo6" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.estado6" />
+                                                </td>
+                                                <td>
+                                                    <span t-field="o.profundidad6" />
+                                                </td>
+                                            </tr>
+                                            
+                                            <t t-if="o.rueda_repuesto == True">
+                                                <tr>
+                                                    <th scope="row">Rueda de repuesto</th>
+                                                    <td>
+                                                        <span t-field="o.modelo_rueda_repuesto" />
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="o.estado_rueda_repuesto" />
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="o.profundidad_rueda_repuesto" />
+                                                    </td>
+                                                 </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                    </div>
+                    <div class="row" style="margin='20px'">
+                       <p><strong><u>Accesorios del furgón</u></strong></p>
+                        
+                       <div class="col-6">
+                                <ul>
+                                    <li t-if="o.lr_Horizontal_laterales == True">
+                                        Líneas de retención de carga horizontal en laterales |  
+                                        <span t-field="o.lr_Horizontal_laterales_cantidad" /> unidades
+
+                                    </li>
+                                    <li t-if="o.lr_Horizontal_laterales_embutidas == True">
+                                        Líneas de retención embutidas
+                                    </li>
+                                    <li t-if="o.lr_techo == True">
+                                        Líneas de retención de carga en el techo	
+                                    </li>
+                                    <li t-if="o.barra_horizontal == True">
+                                        Barra horizontal	
+                                    </li>
+                                    <li t-if="o.barra_vertical_puntataco == True">
+                                        Barra vertical punta-taco	
+                                    </li>
+                                    <li t-if="o.barra_vertical_tacotaco == True">
+                                        Barra vertical taco-taco	
+                                    </li>
+                                    <li t-if="o.lona == True">
+                                        Lona | <span t-field="o.longitud_lona" /> m
+                                    </li>
+                                    <li t-if="o.rotulacion == True">
+                                        Rotulación
+                                    </li>
+                                    <li t-if="o.banda_laterales == True">
+                                        Banda de protección de aluminio de 200 en laterales	
+                                    </li>
+                                    <li t-if="o.banda_techo == True">
+                                        Banda de protección de aluminio de 200 en techo	
+                                    </li>
+                                    <li t-if="o.desague == True">
+                                        Desagüe | <span t-field="o.posicion_desague" /> | canal: <span t-field="o.canal_desague" />
+                                    </li>
+                                    <li t-if="o.colector == True">
+                                        <span t-field="o.tipo_colector" />
+                                    </li>
+                                    <li t-if="o.plataforma == True">
+                                        Con plataforma
+                                    </li>
+                                </ul>
+                       </div>
+                       <div class="col-6">
+                       <p><strong><u>Accesorios del chasis</u></strong></p>
+
+                            <ul>
+                                <li t-if="o.portapale_cerrado == True">
+                                    Portapalé cerrado	
+                                </li>
+                                <li t-if="o.portapale_abierto == True">
+                                    Portapalé abierto	
+                                </li>
+                                <li t-if="o.anticiclista == True">
+                                    Anticiclista
+                                </li>
+                                <li t-if="o.escalera_trasera == True">
+                                    Escalera trasera	
+                                </li>
+                                <li t-if="o.portadocumentos == True">
+                                    Portadocumentos
+                                </li>
+                                <li t-if="o.cajones == True">
+                                    Cajones y depósito de agua	 <span t-field="o.posicion_cajones" />
+                                </li>
+                                <li t-if="o.tabique == True">
+                                    <span t-field="o.tipo_tabique" />
+                                </li>
+                                <li t-if="o.soporte_Rueda == True">
+                                    <span t-field="o.tipo_Soporte" />
+                                </li>
+                            </ul>
+                       </div>
+
+
+                    </div>
+
+                    <div class="row">
+                       <p><strong><u>Equipo de frio</u></strong></p>
+                        <div class="col-6">
+                            <p><strong>Modelo de equipo de frio: </strong><span t-field="o.modelo_Equipo_frio" /></p>
+                            <p><strong>Tipo de equipo: </strong><span t-field="o.tipo_equipo" /></p>
+                        </div>
+                        <div class="col-6">
+                            <strong>Modelo de termógrafo </strong> <span t-field="o.modelo_termografo" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <h2>Detalles compra</h2>
+                        <p><strong>Comprado a: </strong> <span t-field="o.compradoa_id" /></p>
+                        <p><strong>Precio de compra: </strong> <span t-field="o.precio_compra" /> </p>
+                        <p><strong>Fecha entrada: </strong> <span t-field="o.fecha_Entrada" /> </p>
+                    </div>
+                    <div class="col-6">
+                        <h2>Detalles venta</h2>
+                        <div t-if="o.state == 'vendido'">
+                            <p><strong>Vendido a: </strong> <span t-field="o.vendidoa_id" /></p>
+                            <p><strong>Precio de venta: </strong> <span t-field="o.precio_venta" /> </p>
+                            <p><strong>Fecha salida: </strong> <span t-field="o.fecha_salida" /> </p>
+                        </div>
+                        <div t-if="o.state != 'vendido'">
+                            <p>No se ha vendido </p>
+                        </div>
+                        <h2>Detalles reparación</h2>
+                        <div t-if="o.coste_reparacion != 0.0">
+                            <p><strong>Coste de reparación: </strong><span t-field="o.coste_reparacion" /></p>
+                            <p><strong>Detalles de la reparación: </strong><span t-field="o.informacion_reparacion" /></p>
+                        </div>
+                        <div t-if="o.coste_reparacion == 0.0">
+                            <p>No tiene reparaciones</p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                </div>
+                <div style="page-break-before: always;"> 
+                    <div class="row">
+                        <div class="col-12 text-right mb4">
+                            <p>Ficha de vehículo <span t-field="o.name"/> </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <img t-attf-src="data:image/png;base64,{{o.lateral_derecho}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.lateral_izquierdo}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.portapale_derecho}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.portapale_izquierdo}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.centroruedas_izquierdo}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.centroruedas_derecho}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.trasera}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.esquina1}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.esquina2}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.esquina3}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.esquina4}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.interior}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.otros1}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.otros2}}" style="max-width:200px;"/>
+                            <img t-attf-src="data:image/png;base64,{{o.otros3}}" style="max-width:200px;"/>
+                        </div>
+                    </div>
+                </div>
+
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>
+

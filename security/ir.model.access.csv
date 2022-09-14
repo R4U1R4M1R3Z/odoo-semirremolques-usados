@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+acceso_usados_usuario,acceso usados usuario,model_usados,group_usados_usuario,1,0,0,0
+acceso_usados_administrador,acceso usados administrador,model_usados,group_usados_administrador,1,1,1,1
