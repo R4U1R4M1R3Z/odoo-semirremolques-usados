@@ -9,7 +9,6 @@
     ],
     'author': 'Raúl Ramírez',
     'category': 'Sale',
-    'website': 'http://www.indetruck.com',
     'summary': 'Modulo de control de semirremolques usados',
     'description': '''
     Modulo de control de semirremolques usados
